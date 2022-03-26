@@ -308,15 +308,20 @@ In your project, in the R Console, call:
 ```
 usethis::use_github()
 ```
-
---
+```
+usethis::use_git_remote("origin", url = "https://github.com/yangping2022/happy-git.git", overwrite = TRUE)
+```
+---
 
 # In the shell
 In a shell, do this, substituting your URL:
 ```
-git remote add origin https://github.com/jennybc/myrepo.git
+git remote add origin https://github.com/yangping2022/happy-git.git
 ```
 Push and cement the tracking relationship between your local main branch and main on GitHub (or whatever your default branch is named):
 ```
 git push --set-upstream origin main
 ```
+
+
+
