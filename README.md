@@ -1,2 +1,2 @@
 # happy-git
-learing how to use git&amp;github
+learning how to use git&amp;github
