@@ -64,7 +64,7 @@ usethis::create_github_token()
 Look over the scopes; I highly recommend selecting “repo”, “user”, and “workflow”.
 
 You could even get out ahead of this and store the PAT explicitly right now. In R, call gitcreds::gitcreds_set() to get a prompt where you can paste your PAT:
-```
+```{r}
 gitcreds::gitcreds_set()
 ```
 
@@ -85,13 +85,13 @@ origin  https://github.com/jennybc/happy-git-with-r.git (push)
 origin  git@github.com:jennybc/happy-git-with-r.git (fetch)
 origin  git@github.com:jennybc/happy-git-with-r.git (push)
 
-~/rrr/happy-git-with-r % git remote set-url origin https://github.com/jennybc/happy-git-with-r.git
+~/rrr/happy-git-with-r % git remote set-url origin https://github.com/yangping2022/happy-git.git
 ```
 We can do the same from R using functions in usethis:
-```{r}
+```
 usethis::git_remotes()
 #> $origin
-#> [1] "https://github.com/jennybc/happy-git-with-r.git"
+#> [1] "https://github.com/yangping2022/happy-git.git"
 
 usethis::use_git_remote(
   "origin",
@@ -105,7 +105,7 @@ usethis::git_remotes()
 
 usethis::use_git_remote(
   "origin",
-  "https://github.com/jennybc/happy-git-with-r.git",
+  "https://github.com/yangping2022/happy-git.git",
   overwrite = TRUE
 )
 ```
@@ -144,8 +144,8 @@ checking stuff for Happy Git
 
 ~/tmp/myrepo % git remote show origin
 * remote origin
-  Fetch URL: https://github.com/jennybc/myrepo.git
-  Push  URL: https://github.com/jennybc/myrepo.git
+  Fetch URL: https://github.com/yangping2022/happy-git.git
+  Push  URL: https://github.com/yangping2022/happy-git.git
   HEAD branch: main
   Remote branch:
     main tracked
@@ -188,7 +188,7 @@ rm -rf myrepo/
 Clone the test GitHub repository to your computer via RStudio
 In RStudio, start a new Project:
 
-- *File > New Project > Version Control > Git.* In “Repository URL”, paste the URL of your new GitHub repository. It will be something like this `https://github.com/jennybc/myrepo.git.`
+- *File > New Project > Version Control > Git.* In “Repository URL”, paste the URL of your new GitHub repository. It will be something like this `https://github.com/yangping2022/happy-git.`
 
   - Do you NOT see an option to get the Project from Version Control? Restart RStudio and try again. Still no luck? Go to chapter 13 for tips on how to help RStudio find Git.
 
@@ -268,7 +268,7 @@ Edit the commit message in “Commit changes” or accept the default.
 
 Click the big green button “Commit changes.”
 
-**Note that in general (and especially in future when collaborating with other developers) you will usually need to pull changes from the remote (GitHub) before pushing the local changes you have made. For this reason, it’s a good idea to try and get into the habit of pulling before you attempt to push.**
+# Note that in general (and especially in future when collaborating with other developers) you will usually need to pull changes from the remote (GitHub) before pushing the local changes you have made. For this reason, it’s a good idea to try and get into the habit of pulling before you attempt to push.
 
 ---
 
@@ -308,20 +308,118 @@ In your project, in the R Console, call:
 ```
 usethis::use_github()
 ```
-```
-usethis::use_git_remote("origin", url = "https://github.com/yangping2022/happy-git.git", overwrite = TRUE)
-```
+
 ---
 
 # In the shell
 In a shell, do this, substituting your URL:
 ```
-git remote add origin https://github.com/yangping2022/happy-git.git
+git remote add origin  https://github.com/yangping2022/happy-git.git
 ```
 Push and cement the tracking relationship between your local main branch and main on GitHub (or whatever your default branch is named):
 ```
 git push --set-upstream origin main
 ```
 
+---
 
+# Test drive R Markdown
+We’ll practice with RStudio’s boilerplate R Markdown document.
 
+Do this: *File > New File > R Markdown …*
+
+- Give it an informative title. 
+- Accept the default Author or edit if you wish.
+- Accept the default output format of HTML.
+- Click OK.
+Save this document to a reasonable filename and location. The filename should end in `.Rmd` or `.rmd`. Save in the top-level of this RStudio project and Git repository, that is also current working directory. 
+Click on **“Knit HTML” or do File > Knit Document**. RStudio should display a preview of the resulting HTML. Also look at the file browser. You should see the original R Markdown document, i.e. `foo.Rmd` AND the resulting HTML `foo.html`.
+
+# Output format
+
+The magical process that turns your R Markdown to HTML is like so:
+```
+foo.Rmd --> foo.md --> foo.html
+```
+switch the output format to github_document. This means rendering look like this:
+```
+foo.Rmd --> foo.md
+```
+- You can make some YAML changes via the RStudio IDE: click on the “gear” in the top bar of the source editor, near the “Knit HTML” button. Select **“Output options”** and go to the Advanced tab and check **“Keep markdown source file”**. Your YAML should now look more like this:
+```
+---
+title: "Something fascinating"
+author: "Jenny Bryan"
+date: "2022-03-25"
+output:
+  html_document:
+    keep_md: true
+---
+```
+- You should have gained the line keep_md: true. You can also simply edit the file yourself to achieve this. The IDE only exposes a small fraction of what’s possible to configure in the YAML.
+
+- In fact, a hand-edit is necessary if you want to keep only markdown and get GitHub-flavored markdown. In that case, make your YAML look like this:
+```
+---
+title: "Something fascinating"
+author: "Jenny Bryan"
+date: "2022-03-25"
+output: github_document
+---
+```
+Save!
+- Render via “Knit HTML” button.
+Now revisit the file browser. In addition to `foo.Rmd`, you should now see `foo.md`. If there are R chunks that make figures, the usage of markdown output formats will also cause those figure files to be left behind in a sensibly named sub-directory, such as foo_files.
+
+# Put your stamp on it
+
+Insert an empty R chunk, via the “Chunk” menu in upper right of source editor or with the corresponding keyboard shortcut.
+```{r, eval=TRUE}
+## insert your brilliant WORKING code here
+```
+If the code doesn’t work with you babysitting it, I can guarantee you it will fail, in a more spectacular and cryptic way, when run at arms-length via “Knit HTML” or `rmarkdown::render()`.
+
+# Publish your report
+
+Use `output: github_document` or, if output is html_document, add `keep_md: true`.
+**In both cases, it is critical to also commit and push everything inside** `foo_files`
+
+# HTML on GitHub
+
+HTML files, such as `foo.html`, are not immediately useful on GitHub
+But there are ways to get a preview: such as
+https://htmlpreview.github.io/
+
+---
+
+# If you can’t figure out what’s wrong by reading the error messages
+- Insert this chunk near the top of your .Rmd document:
+```
+```{r setup, include = FALSE, cache = FALSE}
+knitr::opts_chunk$set(error = TRUE)
+```
+```
+- If it’s undesirable to globally accept errors, you can still specify error = TRUE for a specific chunk like so:
+```
+```{r wing-and-a-prayer, error = TRUE}
+## your sketchy code goes here ;)
+```
+```
+- Adapt the “git bisect” strategy:
+Put `knitr::knit_exit()` somewhere early in your `.Rmd` document, either in inline R code or in a chunk. Keep moving it earlier until things work. Now move it down in the document. Eventually you’ll be able to narrow down the location of your broken code well enough to find the line(s) and fix it.
+- Check your working directory
+  - `getwd()` will display working directory at run time.
+  - `list.files()` will list the files in working directory. Is the file you want even there?
+  
+#  Render an R script
+## Transform the R markdown to R:
+- Anything that’s not R code? Like the YAML and the prose? Protect it with roxygen-style comments: start each line with #'
+- Anything that is R code? Let it exist “as is” as top-level code. That means you’ll need to change the syntax of R chunk headers like so:
+Before: ````{r setup, include = FALSE}`
+After: `#+ r setup, include = FALSE`
+  
+```{r}
+dotchart(VADeaths, main = "Death Rates in Virginia - 1940")
+```
+  
+  
