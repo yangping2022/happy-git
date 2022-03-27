@@ -13,7 +13,7 @@ git config --global user.email "yangping1113@icloud.com"
 git config --global --list
 ```
 
-```{r}
+```{r eval=FALSE}
 library(usethis)
 use_git_config(user.name = "YangPing", user.email = "yangping1113@icloud.com")
 ```
@@ -25,7 +25,7 @@ use_git_config(user.name = "YangPing", user.email = "yangping1113@icloud.com")
 
 - set your default initial branch name to main like so, in the shell:
 `git config --global init.defaultBranch main` or from R (the default for name is "main"):
-```{r}
+```{r eval=FALSE}
 usethis::git_default_branch_configure()
 ```
 
@@ -58,13 +58,13 @@ usethis::git_default_branch_configure()
 
 Go to https://github.com/settings/tokens and click “Generate token”.
 Or, from R, do:
-```{r}
+```{r eval=FALSE}
 usethis::create_github_token()
 ```
 Look over the scopes; I highly recommend selecting “repo”, “user”, and “workflow”.
 
 You could even get out ahead of this and store the PAT explicitly right now. In R, call gitcreds::gitcreds_set() to get a prompt where you can paste your PAT:
-```{r}
+```{r eval=FALSE}
 gitcreds::gitcreds_set()
 ```
 
@@ -374,7 +374,7 @@ Now revisit the file browser. In addition to `foo.Rmd`, you should now see `foo.
 # Put your stamp on it
 
 Insert an empty R chunk, via the “Chunk” menu in upper right of source editor or with the corresponding keyboard shortcut.
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 ## insert your brilliant WORKING code here
 ```
 If the code doesn’t work with you babysitting it, I can guarantee you it will fail, in a more spectacular and cryptic way, when run at arms-length via “Knit HTML” or `rmarkdown::render()`.
@@ -418,7 +418,7 @@ Put `knitr::knit_exit()` somewhere early in your `.Rmd` document, either in inli
 Before: ````{r setup, include = FALSE}`
 After: `#+ r setup, include = FALSE`
   
-```{r}
+```{r eval=FALSE}
 dotchart(VADeaths, main = "Death Rates in Virginia - 1940")
 ```
   
